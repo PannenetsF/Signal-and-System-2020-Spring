@@ -1,0 +1,427 @@
+\ifx\mainclass\undefined
+\documentclass[cn,11pt,chinese,black,simple]{../elegantbook}
+\input{../needed.tex}
+\begin{document}
+\fi 
+
+% Start Here
+\chapter{离散时间信号与系统变换域分析}
+
+在时域分析的基础上进行变换域的分析，序列在某种程度上可以看作连续时间信号的特例。依据连续信号分析的套路，进行相应的傅里叶变换，
+以及拉普拉斯变换。序列的傅里叶变换是数字信号处理的基本内容，序列拉普拉斯变换则是 \(\mathscr{Z}\)  变换。
+
+
+\section{\(\mathscr{Z}\) 变换}
+
+\subsection{基本概念}
+
+\begin{definition}[\(\mathscr{Z}\) 变换]
+    对于序列 \(x(n)\) ，其 \(\mathscr{Z}\) 双边变换的定义为 
+    
+    \[X(z) = \zt{x(x)} = \dsum_{n=-\infty}^{+\infty} x(n)z^{-n}\]
+
+    类似拉普拉斯变换，同样定义其单边变换。对于序列 \(x(n)\) ，其 \(\mathscr{Z}\) 单边变换的定义为 
+    \[X(z) = \zt{x(x)} = \dsum_{n=0}^{+\infty} x(n)z^{-n}\]
+\end{definition}
+
+序列 \(x(n)\) 的 \(\mathscr{Z}\) 变换是复变量 \(z^{-1}\) 的幂级数， \(,\) 其系数是序列 \(x(n)\) 的样值， 即
+
+\[
+X(z)=\cdots+x(-2) z^{2}+x(-1) z+x(0)+x(1) z^{-1}+x(2) z^{-2}+\cdots
+\]
+
+其实 \(\mathscr{Z}\) 变换可以借助抽样信号的拉普拉斯变换引出。一个信号被理想抽样，得到 
+
+\[x_s(t) = x(t) \delta_T(t) = \dsum_{n=-\infty}^\infty x(nT) \delta(t-nT)\]
+
+进行拉普拉斯变换得到
+
+\[X_s(s) = \dsum_{n=-\infty}^\infty x(nT) e^{-s n T}\]
+
+引入 \(z = e^{s T}\) ，则可以得到
+
+\[X(z) = \dsum_{n=-\infty}^\infty x(n T) z^{-n}\]
+
+离散系统中，采样间隔往往为 \(1\) ，那么 \(z = e^s\)
+
+\[X(z) = \dsum_{n=-\infty}^\infty x(n 1) z^{-n}\]
+
+\subsection{收敛域}
+
+同样是类似于拉普拉斯变换， \(\mathscr{Z}\) 变换同样存在收敛域（ ROC ），实际上就是幂级数求和的收敛性问题。
+
+对于变号级数 \(\dsum_{n=-\infty}^{\infty} x(n) z^{-n},\) 满足条件
+
+\[
+\lim _{n \rightarrow \infty}\left|\dfrac{x(n+1) z^{-(n+1)}}{x(n) z^{-n}}\right|=\rho
+\]
+
+\begin{itemize}
+    \item 若 \(\rho < 1 ,\) 则级数绝对收敛
+    \item 若 \(\rho>1,\) 则级数发散
+    \item 若 \(\rho=1,\) 级数可能收纸也可能发散
+\end{itemize}
+
+对于因果序列或 \(n \geq 0\) 序列，收敛域是空心圆。
+对于 \(n < 0\) 序列，收敛域是空心圆。
+对于双边序列，收敛域是圆环。
+对于有限长度序列，分别有 \(n \geq 0\) 、\(n < 0\) 、过 \(0\) 序列，收敛域分别是除去 \(z = 0\)，\(z = \infty\) ，\(z = 0\  \text{or} \ \infty\) 。
+
+\subsection{\(z\)平面与\(s\)平面} 
+
+将复数转换为极坐标，原有的以原点为分界变为以单位圆分界。
+
+\[z = e^{(\sigma + j \omega )T} \rightarrow \left\{
+\begin{aligned}
+    r &= e^{\sigma T} \\
+    \theta &= \omega T = \omega \dfrac{2 \pi}{\omega_s}
+\end{aligned}\right.
+\]
+
+\section{典型的\(\mathscr{Z}\)变换对及性质}
+
+
+\subsection{变换对}
+
+\begin{longtable}{lll} 
+    \caption{\(\mathscr{Z}\)变换对} \\ 
+    \toprule
+    时域函数 & \(z\)域函数 & ROC \\
+    \midrule
+    \endfirsthead
+    
+    \toprule
+    时域函数 & \(z\)域函数 & ROC \\
+    \midrule
+    \endhead 
+  
+    \hline
+    \multicolumn{3}{c}{见下页}\\   \bottomrule
+    \endfoot
+  
+    \bottomrule
+    \endlastfoot
+    \(\delta(n)\) & 1 & 全平面\\
+    \(u(n)\) & \(\dfrac{z}{z-1}\) & \(\abs{z}>1\) \\
+    \(a^n u(n)\) & \(\dfrac{z}{z-a}\) & \(\abs{z}>a\) \\
+    \(-a^n u(-n-1)\) & \(\dfrac{z}{z-a}\) & \(\abs{z}<a\)\\
+    \(\cos(\omega_0 n)u(n)\) & \(\dfrac{z^2-z \cos \omega_0}{z^2 - 2 z \cos\omega_0 + 1}\) & \(\abs{z}>1\) \\
+    \(\sin(\omega_0 n)u(n)\) & \(\dfrac{z \sin\omega_0}{z^2 -2 z \cos\omega_0 + 1}\) &  \(\abs{z}>1\) \\
+
+\end{longtable}
+  
+
+\subsection{性质}
+
+以下的讨论的基准函数是 \(x(n) \zta X(z)\)，并且部分性质对单边双边进行了区分。
+
+\begin{longtable}{llll} 
+    \caption{\(\mathscr{Z}\)变换性质} \\ 
+    \toprule
+    时域函数 & \(z\)域函数 & 原ROC  & 变换后ROC\\
+    \midrule
+    \endfirsthead
+    
+    \toprule
+    时域函数 & \(z\)域函数 & 原ROC  & 变换后ROC\\
+    \midrule
+    \endhead 
+  
+    \hline
+    \multicolumn{4}{c}{见下页}\\   \bottomrule
+    \endfoot
+  
+    \bottomrule
+    \endlastfoot
+    \(x(-n)\) & \(X(z^{-1})\) & \(\alpha < \abs{z} < \beta\) & \(\dfrac{1}{\beta} < \abs{z} < \dfrac{1}{\alpha}\)\\
+    \(x(\dfrac{n}{a}),a>0\) & \(X(z^a)\) & \(\alpha < \abs{z} < \beta\) & \(\alpha^{1/a} < \abs{z} < \beta^{1/a}\) \\
+    \(x(n \pm m)\) & 双边 \(z^{\pm m}X(z)\) &  \(\alpha < \abs{z} < \beta\) &  \(\alpha < \abs{z} < \beta\) \\
+    \(x(n - m)u(n)\) & 单边 \(z^{-m} \left[X(z) + \dsum_{k=-m}^{-1}x(k)z^{-k}\right]\) & \(\abs{z} > a\) & \(\abs{z} > a\) \\
+    \(x(n + m)u(n)\) & 单边 \(z^{m} \left[X(z) - \dsum_{k=0}^{m-1}x(k)z^{-k}\right]\) & \(\abs{z} > a\) & \(\abs{z} > a\) \\
+    线性性 & & & 原收敛域的交集 \\
+    \(n x(n)\) & \(-z \dfrac{\dd{X(z)}}{\dd{z}}\) & \(\alpha < \abs{z} < \beta\) & \(\alpha < \abs{z} < \beta\)\\
+    \(n^m x(n)\) & \(\left[-z\dfrac{\dd{}}{\dd{z}}\right]^m X(z)\) & \(\alpha < \abs{z} < \beta\) & \(\alpha < \abs{z} < \beta\)\\
+    \(a^n x(n)\) & \(X(\dfrac{z}{a})\) &  \(\alpha < \abs{z} < \beta\) &  \(\alpha < \abs{\dfrac{z}{a}} < \beta\) \\
+    \(x_1(n) \otimes x_2(n)\) & \(X_1(z) X_2(z)\) & & 原收敛域交集 \\
+    \(x_1(n)x_2(n)\) & \(\dfrac{1}{2 \pi j}\displaystyle\oint_C X_1(\dfrac{z}{v})X_2(v) v^{-1} \dd{v} \)\footnote{其中\(C\)是\(X_1(\dfrac{z}{v})X_2(v)\) 收敛域交集内的逆时针方向围线} & & 收敛域是边界的乘积 \\
+\end{longtable}
+
+初值定理 \[\lim _{z \rightarrow \infty} X(z)=\lim _{z \rightarrow \infty} \dsum_{n=0}^{\infty} x(n) z^{-n}=x(0)\]
+
+终值定理 \[\lim_{z\rightarrow 1}(z-1)X(z) = x(\infty)\]
+  
+
+\section{逆 \(\mathscr{Z}\) 变换}
+
+根据 \(\mathscr{Z}\) 变换的定义，只要可以将给定的 \(z\) 域函数展开成幂级数的形式，就可以得到原序列。但是往往不是那么容易得到，更多的通过部分分式法确定。
+
+对于有理多项式 \[
+    X(z)=\dfrac{B(z)}{A(z)}=\dfrac{b_{m} z^{m}+b_{m-1} z^{m-1}+\cdots+b_{1} z+b_{0}}{a_{n} z^{n}+a_{n-1} z^{n-1}+\cdots+a_{1} z+a_{0}}
+\]
+对于分解得到的 \(\dfrac{k z}{z-a}\)
+
+\[
+\begin{aligned}
+    &k a^n u(n), \abs{z} > a\\
+    &-k a^n u(-n-1), \abs{z} < a\\
+\end{aligned}    
+\]
+
+围线积分法 
+
+\[x(n)=\dfrac{1}{2 \pi j } \oint_{c} X(z) z^{m-1} d z\]
+
+该式便是逆变换表达式。\(C\)是 平面上包含 \(X(z)z^{n-1}\)
+所有极点的逆时针闭合环路积分路线。
+
+通过留数定理
+
+\[x(n) = \left\{\begin{aligned}
+    & \dsum_{\text{polar point in} C} \operatorname{Res}[X(z)z^{n-1}] ,n \geq 0\\
+    & \dsum_{\text{polar point out of} C} \operatorname{Res}[X(z)z^{n-1}] ,n < 0\\
+\end{aligned}\right.
+\]
+
+对于 \(K\) 重极点
+
+\[\operatorname{Res}\left[X(z) z^{n-1}\right]_{z=z_{i}}=\dfrac{1}{(K-1) !} \dfrac{ \dd{} ^{K-1}}{ \dd{} z^{K-1}}\left[\left(z-z_{i}\right)^{K} X(z) z^{n-1}\right]\where{z=z_{i}}\]
+
+\section{\(\mathscr{Z}\) 变换求解系统响应}
+
+LTI离散系统离散时间系统的差分方程一般形式为
+
+\[
+\dsum_{k=0}^{N} a_{k} y(n-k)=\dsum_{r=0}^{M} b_{r} x(n-r)
+\]
+
+将等式两边取单边\(\mathscr{Z}\) 变换，并利用 \(\mathscr{Z}\) 变换的位移特性
+
+\[
+\begin{array}{c}
+z[x( n - m ) u ( n )]= z ^{-m}\left[ X ( z )+\dsum_{k=-m}^{-1} x ( k ) z ^{-k}\right] \\
+\dsum_{k=0}^{N} a _{k} z ^{-k}\left[ Y ( z )+\dsum_{l=-k}^{-1} y (I) z ^{-1}\right]=\dsum_{r=0}^{M} b _{r} z ^{-r}\left[ X ( z )+\dsum_{m=-r}^{-1} x ( m ) z ^{-m}\right]
+\end{array}
+\]
+
+那么完全响应的z变换为
+
+\[
+Y(z)=\dfrac{\dsum_{r=0}^{M} b_{r} z^{-r}\left[X(z)+\dsum_{m=-r}^{-1} x(m) z^{-m}\right]}{\dsum_{k=0}^{N} a_{k} z^{-k}}-\dfrac{\dsum_{k=0}^{N}\left[a_{k} z^{-k} \cdot \dsum_{l=-k}^{-1} y(l) z^{-l}\right]}{\dsum_{k=0}^{N} a_{k} z^{-k}}
+\]
+
+零输入响应的z变换为
+
+\[
+Y(z)=-\dfrac{\dsum_{k=0}^{N} a_{k} z^{-k} \cdot \dsum_{l=-k}^{-1} y(l) z^{-l}}{\dsum_{k=0}^{N} a_{k} z^{-k}}
+\]
+
+零状态响应的\(\mathscr{Z}\)变换为
+
+\[
+Y(z)=\dfrac{\dsum_{r=0}^{M} b_{r} z^{-r}\left[X(z)+\dsum_{m=r}^{-1} x(m) z^{-m}\right]}{\dsum_{k=0}^{N} a_{k} z^{-k}}
+\]
+
+当激励 \(x(n)\) 为因果序列时， 系统零状态响应
+
+\[
+Y(z)=X(z) \cdot \dfrac{\dsum_{r=0}^{M} b_{r} z^{-r}}{\dsum_{k=0}^{N} a_{k} z^{-k}}
+\]
+
+\section{基于 \(\mathscr{Z}\) 变换的系统特性}
+
+\subsection{系统函数}
+
+系统单位样值响应的 \(\mathscr{Z}\) 变换
+
+\[H(z) = \dsum_{n = 0}^\infty h(n) z^{-n}\] 
+
+并满足 \[H(z) = \dfrac{Y(z)}{X(z)} = \dfrac{\dsum_{r=0}^M b_r z^{-r}}{\dsum_{k=0}^N a_k z^{-k}}=\dfrac{\displaystyle\prod_{r=1}^{M}\left(1-z_{r} z^{-1}\right)}{\displaystyle\prod_{k=1}^{N}\left(1-p_{k} z^{-1}\right)}\]
+
+类似拉普拉斯变换，零极点分布可以决定系统的样值响应，可以参见拉普拉斯变换部分的极点分布影响。
+
+
+
+\begin{longtable}{ll} 
+    \caption{\(\mathscr{Z}\)变换的一阶极点与时域关系} \\ 
+    \toprule
+    \(X(z)\) 极点位置 & 时域信号性质\\ 
+    \midrule
+    \endfirsthead
+    
+    \toprule
+    \(X(z)\) 极点位置 & 时域信号性质\\ 
+    \midrule
+    \endhead 
+  
+    \hline
+    \multicolumn{2}{c}{见下页}\\   \bottomrule
+    \endfoot
+  
+    \bottomrule
+    \endlastfoot
+    
+    \(\abs{z} < 1, \operatorname{Im}[z] = 0\) & 指数衰减 \\
+    \(\abs{z} < 1, \operatorname{Im}[z] \neq 0\) & 减幅振荡 \\
+    \(\abs{z} = 1, \operatorname{Im}[z] = 0\) & 常数 \\
+    \(\abs{z} = 1, \operatorname{Im}[z] \neq 0\) & 等幅振荡 \\
+    \(\abs{z} > 1, \operatorname{Im}[z] = 0\) & 指数上升 \\
+    \(\abs{z} > 1, \operatorname{Im}[z] \neq 0\) & 增幅振荡 \\
+
+
+\end{longtable}
+
+若在单位圆上存在高阶极点同样会产生增幅。
+
+\subsection{系统框图}
+
+级联型就是基本的反馈单元。
+
+\qfig{f5.png}{并联框图元件}
+
+\[H_1(z) = \dfrac{1+b_{1,j}z^{-1}}{1-a_{1,j}z^{-1}}\]
+
+\[H_{2}(z)=\dfrac{1+b_{1, i} z^{-1}+b_{2, i} z^{-2}}{1+a_{1, i} z^{-1}+a_{2, i} z^{-2}}\]
+
+\qfig{f6.png}{级联框图元件}
+
+\[H_{1}(z)=\dfrac{1}{1+a_{1, i} z^{-1}} \]
+
+\[ H_{2}(z)=\dfrac{1+b_{1, i} z^{-1}}{1+a_{1, i} z^{-1}+a_{2, i} z^{-2}}\]
+
+\subsection{离散时间系统的特性}
+
+因果性即 \[h(n) = h(n) u(n)\]
+
+因果序列的收敛域为 \(\abs{z} > R\), 那么因果性的充要条件为  \(\abs{z} > R\), 极点分布在一个半径有限的圆中。
+
+稳定性的时域充要条件为 
+
+\[\dsum_{n=-\infty}^{\infty}| h ( n )|< M\]
+
+即 \[H(1) < M\]
+
+系统为稳定的充要条件是：系统函数的收敛域包含
+单位圆。
+
+\section{序列傅里叶变换与系统频响}
+
+\subsection{傅里叶变换的性质}
+
+将 \(z\) 表示为极坐标，可发现类似拉普拉斯变换的衰减系数 \(r\)
+
+\[X(z) = X(r e^{j \omega}) = \dsum_{n=-\infty}^{\infty}\left[x(n)r^{-n}\right]e^{-j \omega n}\]
+
+当 \(r = 1\) 时，即单位圆的 \(\mathscr{Z}\) 变换称为系统的傅里叶变换
+
+\[X\left(e^{ j \omega}\right)=\left.X(z)\right|_{z=e^{j \omega}}=\dsum_{n=-\infty}^{\infty} x(n) e^{- j n \omega}\]
+
+按照围线法，其逆变换为 
+
+\[\begin{aligned}
+    x(n) &=\dfrac{1}{2 \pi j } \oint_{|z|=1} X(z) z^{n-1} d z \\
+    &=\dfrac{1}{2 \pi j } \oint_{|z|=1} X\left(e^{ j \omega}\right) e^{ j n \omega} \cdot e^{- j \omega} d \left(e^{ j \omega}\right) \\
+    &=\dfrac{1}{2 \pi j } \int_{-\pi}^{\pi} X\left(e^{ j \omega}\right) e^{ j n \omega} \bullet e^{- j \omega} \bullet j e^{ j \omega} d \omega\\
+    &=\dfrac{1}{2 \pi} \int_{-\pi}^{\pi} X\left(e^{ j \omega}\right) e^{j n \omega} d \omega
+\end{aligned}\]
+
+并不是任何序列都是存在傅里叶变换。序列存在傅里叶变换的充分条件是绝对可和。
+
+同样存在奇偶虚实性、时移、时域压扩、反褶、线性等性质；
+存在序列线性加权、频移、卷积性质。
+
+卷积为 \[x_1(n) \otimes x_2(n) \]
+
+
+\[
+\ft{x_{1}(n) \otimes x_{2}(n)}=X_{1}\left(e^{ j \omega}\right) \cdot X_{2}\left(e^{ j \omega}\right)
+\]
+
+\[
+\ft{x _{1}( n )  x _{2}( n )}=\dfrac{1}{2 \pi}\left[ X _{1}\left( e ^{ j \omega}\right) \otimes X _{2}\left(e^{ j \omega}\right)\right]
+\]
+
+能量守恒定律
+
+\[\dsum_{n=-\infty}^{\infty}| x ( n )|^{2}=\dfrac{1}{2 \pi} \int_{-\pi}^{\pi}\left| X \left( e ^{ j \omega}\right)\right|^{2} d \omega\]
+
+\subsection{系统频响}
+
+稳定系统的傅里叶变换满足 \[H(e^{j\omega}) = H(z)\where{z=e^{j\omega}}\]
+
+物理意义与连续时间系统的一致。
+
+\[
+    \begin{array}{l} 
+        y ( n )=\left| H \left( e ^{j \omega_{0}}\right)\right| \dfrac{ 1 }{ 2 }\left[ e ^{\left[\left[\varphi\left(\omega_{0}\right)+a_{0} n\right]\right.}- e ^{-\left[\left[\varphi\left(\omega_{0}\right)+\omega_{0} n\right]\right.}\right] \\
+        \quad=\left| H \left(e^{ j \omega_{0}}\right)\right| \sin \left[ n \omega_{0}+\varphi\left(\omega_{0}\right)\right]
+    \end{array}\]
+
+注意作图法时由于极坐标的周期性，幅频曲线、相频曲线均以\(2 \pi\)为周期。
+
+\section{利用离散系统离散时间系统实现对模拟信号的滤波}
+
+处理实际信号的流程是连续信号离散化，处理之后恢复到连续。即
+
+\[x_c(t) \xrightarrow{\text{A/D转换}} x_d(n) \xrightarrow{\text{数字滤波器}} y_d(n) \xrightarrow{D/A转换} y_c(t)\]
+
+那么具体来说 
+\[x_d(n) = x_c(nT)\]
+
+\[y_d(n) = y_c(nT)\]
+
+离散序列由冲激函数串得到
+
+\[\begin{array}{l}
+    x_{p}(t)=\dsum_{n=-\infty}^{\infty} x_{c}(n T) \delta(t-n T) \\
+    X_{p}( j \omega)=\dsum_{n=-\infty}^{\infty} x_{c}(n T) e^{- j \omega n T}
+\end{array}\]
+
+再考虑离散信号的傅里叶变换
+
+\[X_d(e^{j \Omega}) = \dsum_{n=-\infty}^{\infty} x_d(n)e^{-j \Omega n} = \dsum_{n=-\infty}^{\infty} x_c(n T)e^{-j \Omega n}\]
+
+那么 \[X_d(e^{j\Omega}) = X_p(j\Omega /T)\]
+
+抽样关系，\(\omega_s = \dfrac{2\pi}{T}\)
+
+\[X_{p}( j \omega)=\dfrac{1}{T} \dsum_{k=-\infty}^{\infty} X_{c}\left[ j \left(\omega-k \omega_{s}\right)\right]\]
+
+那么
+
+\[X_{d}\left(e^{ j \Omega}\right)=\dfrac{1}{T} \dsum_{k=-\infty}^{\infty} X_{c}[ j (\Omega-2 \pi k) / T]\]
+
+\qfig{f7.png}{频谱关系}
+
+数字滤波器满足
+
+\[Y_{d}\left(e^{ j \Omega}\right)=X_{d}\left(e^{ j \Omega}\right) H_{d}\left(e^{ j \Omega}\right)\]
+
+\[
+Y_{d}\left(e^{ j \Omega}\right)=\dfrac{1}{T} \dsum_{k=-\infty}^{\infty} X_{c}[ j (\Omega-2 \pi k) / T] H_{d}\left(e^{ j \Omega}\right)
+\]
+
+因为 \(\Omega = \omega T ,\) 故而得到
+
+\[
+Y_{p}( j \omega)=\dfrac{1}{T} \dsum_{k=-\infty}^{\infty} X_{c}\left( j \omega-\dfrac{2 \pi k}{T}\right) H_{d}\left(e^{j \omega T}\right)
+\]
+
+取 \(\omega_{s}=\dfrac{2 \pi}{T},\) 得到
+
+\[
+Y _{d}( j \omega)=\dfrac{ 1 }{ T } \dsum_{k=-\infty}^{\infty} X _{c}\left( j \omega - k \omega_{s}\right) H _{d}\left(e^{ j \omega T}\right)
+\]
+
+\[Y_{c}( j \omega)=X_{c}( j \omega) H_{d}\left(e^{j \omega T}\right)\]
+
+即
+
+\[H _{c}( j \omega)=\left\{\begin{array}{cl} 
+    H _{d}\left(e^{ j \omega T}\right) & | \omega |<\omega_{s} / 2 \\
+    0 & |\omega|>\omega_{2} / 2
+    \end{array}\right.\]
+% End Here
+
+\ifx\mainclass\undefined
+\end{document}
+\fi 

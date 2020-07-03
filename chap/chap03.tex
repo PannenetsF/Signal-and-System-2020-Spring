@@ -1,0 +1,285 @@
+\ifx\mainclass\undefined
+\documentclass[cn,11pt,chinese,black,simple]{../elegantbook}
+\input{../needed.tex}
+\begin{document}
+
+\fi 
+
+
+
+% Start Here
+\chapter{连续时间信号的实频域分析}
+
+本章在时域对信号进行分解进行研究，主要工具是傅里叶级数、傅里叶变换。这一章最重要的是掌握傅里叶变换的性质，进而大大简化计算过程。
+
+\section{相关系数以及正交函数}
+
+\begin{definition}[相关系数]
+  记误差函数\(e(t)\)为\[e(t) = f(t) - k g(t)\]
+  其均方误差为\[\bar{e^2(t)} = \int_{t_1}^{t_2}[f(t)-k g(t)]^2 \dd{t}\]
+  在均方误差取得最小值时的 \(k\) 取值即为 \(f(t)\), \(g(t)\) 的相关系数，表征两者的相似程度
+  \[k = \dfrac{\int_{t_1}^{t_2} f(t) g(t) \dd{t}}{\int_{t_1}^{t_2} g^2(t) \dd{t}}\]
+\end{definition}
+
+当两个函数的相关系数为 \(0\) 时，称这两个函数正交。
+
+信号自身的正交分解常见两种：
+
+\begin{itemize}
+  \item 直流-交流分解 
+  \item 奇偶分量分解
+\end{itemize}
+
+\section{三角函数形式傅里叶级数}
+
+三角函数形式的傅里叶级数：
+
+\[f(t) = a_0 + \dsum_{n=1}^{\infty} (a_n \cos n\omega_1 t + b_0 \sin \omega_1 t)\]
+
+其中
+\[a_0 = \dfrac{1}{T_1} \int_{-T_1/2}^{T/2} f(t) \dd{t}\]
+\[a_n = \dfrac{2}{T_1} \int_{-T_1/2}^{T/2} f(t) \cos n \omega_1 \dd{t}\]
+\[b_n = \dfrac{2}{T_1} \int_{-T_1/2}^{T/2} f(t) \sin n \omega_1 \dd{t}\]
+
+三角函数形式的频谱分为幅度谱以及相位谱。幅度谱为
+\[c_n = \sqrt{a_n^2 + b_n^2}\]
+
+相位谱为
+\[\phi_n = \tan^{-1}\left(\dfrac{-b_n}{a_n}\right)\]
+
+\section{指数函数形式傅里叶级数}
+
+指数形式的傅里叶级数：
+
+\[f(t) = \dsum_{n=-\infty}^{+\infty} F(n\omega_1) e^{j n \omega_1 t}\]
+
+其中
+\[F(n\omega_1) = \dfrac{1}{T_1} \int_{-T_1/2}^{T_1/2} f(t) e^{-j n \omega_1 t} \dd{t}\]
+
+根据三角函数形式级数的运算可以得到
+
+\[a_{-n} = a_n, b_{-n} = -b_n\]
+
+那么有
+
+\[F(n \omega_1) = \left\{
+\begin{aligned}
+  & a_0, \text{n = 0}\\
+  & \dfrac{a_n - j b_n}{2}, \text{n \(\neq\) 0}
+\end{aligned}\right.
+\]
+
+称\(F{n\omega_1}\)为信号的复数频谱或者复数谱。
+
+类似的，频谱为
+\[ F(n \omega_1) = |F(n \omega_1)| e^{j \varphi_n} \]
+
+\section{三角函数-指数函数形式傅里叶级数的频谱关系}
+
+三角函数幅度谱与相位谱均为单边谱，对于幅度谱为偶拓延
+
+\[ 
+|F(n \omega_1)| = \left\{\begin{aligned}
+  c_0 = a_0, n = 0 \\
+  \dfrac{1}{2} \sqrt{a_n^2 + b_n^2} = \dfrac{1}{2} c_n , n \neq 0
+\end{aligned}\right\}
+\]
+
+对于相位谱为奇拓延
+
+\[
+\varphi_n = \arctan (\dfrac{-b_n}{a_n})  
+\]
+
+\section{对称性}
+
+\begin{longtable}{lll} 
+  \caption{傅里叶级数的奇偶对称性} \\ 
+  \toprule
+  函数分类 & 三角级数性质 & 指数级数性质\\ 
+  \midrule
+  \endfirsthead
+  
+  \toprule
+  函数分类 & 三角级数性质 & 指数级数性质\\ 
+  \midrule
+  \endhead 
+
+  \hline
+  \multicolumn{3}{c}{见下页}\\   \bottomrule
+  \endfoot
+
+  \bottomrule
+  \endlastfoot
+  奇函数                                                                              & 只包含正弦函数分量                                                      & \(F(n \omega_1)\) 为纯虚数 相位谱只取\(\pm \dfrac{1}{2} \pi\) \\ 
+  偶函数                                                                              & 只包含余弦函数分量                                                      & \(F(n \omega_1)\) 为实数 相位谱只取\(\pm  \pi\)             \\ 
+  \begin{tabular}[c]{@{}l@{}}奇谐函数\footnote{定义为\(f(t) = -f(t\pm \dfrac{T}{2})\)}\\\end{tabular} & \begin{tabular}[c]{@{}l@{}}只含有奇次谐波，\\ 不含偶次谐波与直流分量\end{tabular} &                                                     \\
+  \begin{tabular}[c]{@{}l@{}}偶谐函数\footnote{定义为\(f(t) = f(t\pm \dfrac{T}{2})\)}\\\end{tabular}  & \begin{tabular}[c]{@{}l@{}}只含有次谐波与直流分量，\\ 不含有奇次谐波\end{tabular} &                    
+
+\end{longtable}
+
+\section{傅里叶变换}
+
+\begin{definition}[傅里叶变换]
+  对于任意的函数\(f(t)\)，将其频谱密度函数
+  \[F(\omega) = \int_{-\infty}^{+\infty} f(t) e^(-j\omega t) \dd{t}\]
+  定义为傅里叶变换
+\end{definition}
+\section{傅里叶变换的性质}
+
+假定已知变换为
+
+\[f(t) \fta F(\omega)\]
+
+性质列表如下
+
+
+\begin{longtable}{ll} 
+  \caption{傅里叶变换性质} \\ 
+  \toprule
+  名称 & 表达形式 \\ 
+  \midrule
+  \endfirsthead
+  
+  \toprule
+  名称 & 表达形式 \\ 
+  \midrule
+  \endhead 
+
+  \hline
+  \multicolumn{2}{c}{见下页}\\   \bottomrule
+  \endfoot
+
+  \bottomrule
+  \endlastfoot
+
+  对称性 & \( F(t) \fta 2 \pi f(-\omega) \) \\
+  奇偶虚实性 & 同傅里叶级数 \\
+  反褶性质 & \(f(-t) \fta F(-\omega) = F^*(\omega)\) \\
+  时移性质 & \(f(t-t_0) \fta F(\omega) e^{-j \omega t_0}\) \\
+  压扩性质 & \(f(at) \fta \dfrac{1}{|a|}F(\dfrac{\omega}{a})\) \\
+  线性性 &  \\
+  时域微分 & \(f'(t) \fta j\omega F(\omega)\) \\
+   & \(f^{(n)}(t) \fta (j\omega)^{(n)} F(\omega)\) \\
+  时域积分 & \(\int_{-\infty}^{t}f(\tau) \dd{\tau} \fta \dfrac{F(\omega)}{j\omega} + \pi F(0) \delta(\omega)\) \\
+  频移特性 & \(f(t)e^{j \omega_0 t} \fta F(\omega - \omega_0)\) \\
+  卷积定理 & \(f_1(t) \otimes f_2(t) \fta F_1(\omega)F_2(\omega)\)\\
+  & \(f_(t)f_1(t) \fta \dfrac{1}{2\pi} F_1(\omega)\otimes F_2(\omega)\)
+  
+  
+\end{longtable}
+
+\section{周期信号的傅里叶变换}
+
+对于周期为 \(T\) 的信号 \(f(t)\) 有傅里叶级数
+
+
+\[f(t) = \dsum_{n=-\infty}^{+\infty} F(n\omega_1) e^{j n \omega_1 t}\]
+
+其中
+\[F(n\omega_1) = \dfrac{1}{T_1} \int_{-T_1/2}^{T_1/2} f(t) e^{-j n \omega_1 t} \dd{t}\]
+
+对其单周期信号 \(f_1(t)\) 有
+
+\[f_1(t) = f(t) \left[u(t+\dfrac{T_1}{2}) - u(t-\dfrac{T_1}{2})\right]\]
+
+其傅里叶变换 \(F_1(\omega)\) 与原函数的傅里叶级数满足
+
+\[F(n \omega_1) = \dfrac{1}{T_1}F_1(\omega)\left|_{\omega = n \omega_1}\right.\]
+
+带入傅里叶级数中得到
+
+\[f(t) \fta 2\pi \dsum_{-\infty}^{+\infty} F(n\omega_1) \delta(\omega - n\omega_1)\]
+
+或者可以简单地通过卷积表示。单个周期信号为 \(f_0(t)\) 那么
+
+\[f_{T_1}(t) = f_0(t) \otimes \delta_{T_1}(t)\]
+
+\[\ft{f_{T_1}(t)} = F_0(\omega) \dfrac{1}{T_1}\dsum_{-\infty}^{\infty} 2\pi \delta(\omega - n\omega_1) = F_0(\omega) \omega_1 \dsum_{-\infty}^{\infty} \delta(\omega - n\omega_1) \] 
+
+
+\section{常见信号的傅里叶变换对}
+
+\begin{definition}[$Sa$ 函数]
+\[Sa(t) = \dfrac{\sin t}{t}\]
+\end{definition}
+
+在数字信号处理和通信理论中，归一化 \(sinc(x)\) 函数通常定义为 \(Sa(\pi x)\) 。
+
+\begin{longtable}{ll} 
+  \caption{傅里叶变换对} \\ 
+  \toprule
+  时域信号 & 频域信号 \\ 
+  \midrule
+  \endfirsthead
+  
+  \toprule
+  时域信号 & 频域信号 \\ 
+  \midrule
+  \endhead 
+
+  \hline
+  \multicolumn{2}{c}{见下页}\\   \bottomrule
+  \endfoot
+
+  \bottomrule
+  \endlastfoot
+
+  \(G_{\tau}(t) = u(t+\dfrac{\tau}{2}) - u(t - \dfrac{\tau}{2})\) & \(\tau Sa(\dfrac{\omega \tau}{2})\) \\ 
+  \(G_{\tau}(t) \otimes G_{\tau}(t) = \left\{\begin{aligned}
+      \tau - |t|, |t| < \tau \\
+      0, t \geq \tau
+  \end{aligned}\right. \) & \(\tau^2 Sa^2(\dfrac{\omega \tau}{2})\) \\
+  \(e^{-\alpha t}u(t)\) & \(\dfrac{1}{\alpha + j \omega}\) \\
+  \(e^{-\alpha |t|}\) & \(\dfrac{2\alpha}{\alpha ^2 + \omega^2}\) \\
+  \(sgn(t)\) & \(\dfrac{2}{j \omega}\) \\
+  \(\delta(t)\) & \(1\) \\
+  \(1\) & \(2 \pi \delta(\omega)\) \\
+  \(u(t)\) & \(\pi \delta(\omega) + \dfrac{1}{j \omega}\) \\
+  \(\sin \omega_1 t\) & \(-j \pi[\delta(\omega-\omega_1) -\delta(\omega + \omega_1)]\) \\
+  \(\cos \omega_1 t\) & \(\pi [\delta(\omega-\omega_1) + \delta(\omega+\omega_1)]\) \\
+  \(\delta_{T_1}(t) = \dsum_{-\infty}^{\infty}\delta(t-nT_1) \) & \(\omega_1 \dsum_{-\infty}^{\infty} \delta(\omega - n \omega_1)\) \\
+  \(G_{T_1,\tau}(t)\) & \(2\pi \dsum_{-\infty}^{\infty} \dfrac{\tau}{T_1} Sa(\dfrac{n \omega_1 \tau}{2} ) \delta(\omega - n\omega_1)\) \\
+  
+  
+\end{longtable}
+
+\section{抽样信号}
+
+原始信号为 \(f(t)\) ，抽样脉冲信号为 \(p(t)\) 
+
+\[f_s(t) = f(t) p(t)\]
+
+抽样信号为周期信号 
+
+\[p(t) \fta P(\omega) = \omega_s \dsum_{-\infty}^{\infty}P_0(n \omega_s) \delta(\omega - n\omega_s)\]
+
+那么
+\[f_s(t) \fta F_s(\omega) = \dfrac{1}{2\pi}F(\omega) \otimes \left[\omega_s \dsum_{-\infty}^{\infty}P_0(n \omega_s) \delta(\omega-n\omega_s)\right]\]
+
+化简
+
+\[f_s(t) \fta F_s(\omega) = \dfrac{1}{T_s} \left[ \dsum_{-\infty}^{\infty}P_0(n \omega_s) F(\omega-n\omega_s)\right]\]
+
+\begin{theorem}[时域抽样定理]
+  对于原始信号 \(f(t) \fta F(\omega)\) 以及抽样脉冲 \(p(t) \fta P(\omega)\) ，且原始信号带宽有限 \(\abs{\omega} < \omega_m\)，
+  可以得到抽样频谱 
+  \[f_s(t) = p(t) f(t) \fta \dfrac{1}{2 \pi} F(\omega) \otimes P(\omega)\]
+
+  为可以从抽样信号中恢复被抽样信号，在采样间隔 \(\omega_s\) 间，不能发生原信号的重叠，
+  即
+  \[\omega_s \geq 2 \omega_m\]
+  或者可以化为 
+  \[\dfrac{2\pi}{T_s} \geq 2 \times 2  \pi f_m\]
+  \[T_s \leq \dfrac{1}{2 f_m}\]
+
+  最小的采样频率称为奈奎斯特频率。
+\end{theorem}
+
+
+
+% End Here
+
+\ifx\mainclass\undefined
+\end{document}
+\fi 

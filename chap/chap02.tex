@@ -1,0 +1,122 @@
+\ifx\mainclass\undefined
+\documentclass[cn,11pt,chinese,black,simple]{../elegantbook}
+\input{../needed.tex}
+\begin{document}
+\fi 
+
+% Start Here
+
+\chapter{连续时间系统的时域分析}
+
+\section{常系数线性微分方程}
+
+常微分方程的求解可以分为以下几个步骤。
+
+\begin{enumerate}
+  \item 根据特征方程求解齐次解
+  \item 根据激励形式配凑特解，求得对应的系数
+  \item 将完全解代入系统初始条件，确定待定系数
+\end{enumerate}
+
+
+
+\begin{longtable}{ll} 
+  \caption{微分方程特解的形式} \\ 
+  \toprule
+  激励 &  特解形式\\
+  \midrule
+  \endfirsthead
+  
+  \toprule
+  激励 &  特解形式\\
+  \midrule
+  \endhead 
+
+  \hline
+  \multicolumn{2}{c}{见下页}\\   \bottomrule
+  \endfoot
+
+  \bottomrule
+  \endlastfoot
+
+  常数\(E\) & 常数\(D\) \\
+  \(t^n\) & \(A_1 t^n + A_2 t^{n-1} + \cdots + A_n t + A_{n+1}\) \\
+  \(e^{\alpha t}\) & \(A e^{\alpha t}\) \\
+  \(\cos (\beta n)\) 或 \(\sin (\beta n)\) & \(P \cos(\beta n) + Q \sin(\beta n)\) \\
+  \(t^n e^{\alpha t}\cos (\beta n)\) 或 \(t^n e^{\alpha t}\sin (\beta n)\) & \begin{tabular}[c]{@{}l@{}}\((A_1 t^n + A_2 t^{n-1} + \cdots + A_n t + A_{n+1})e^{\alpha t} \cos(\beta n) +\)\\ \( (B_1 t^n + B_2 t^{n-1} + \cdots + B_n t + B_{n+1})e^{\alpha t}\)\end{tabular} \\
+
+\end{longtable}
+
+\section{常微分方程解的分类}
+
+解的分类。
+
+\begin{itemize}
+  \item 自由响应：齐次解
+  \item 强迫响应：特解
+  \item 暂态响应：时间趋于无穷时解中趋于 0 的部分
+  \item 稳态响应：时间趋于无穷时解中不为 0 的部分
+  \item 零输入响应：完全由系统储能引起的响应
+  \item 零状态响应：完全由激励引起的响应
+\end{itemize}
+
+
+
+系统时间点的区分。
+
+\begin{itemize}
+  \item 起始状态： \(t = 0_-\)
+  \item 初始状态： \(t = 0_+\)
+\end{itemize}
+
+\section{单位冲激响应}
+
+对于微分方程的单位冲激响应的一般求法，给定一般的系统方程：
+
+\[
+\dsum_{i=0}^{n} C_i \dfrac{\dd{^{n-i} r(t)}}{\dd{t^{n-i}}} = \dsum_{j=0}^{m} E_j \dfrac{\dd{^{m-j} e(t)}}{\dd{t^{m-j}}} 
+\]
+
+\begin{enumerate}
+  \item 将 \(C_0\) 化为 \(1\) ，并且将激励的一侧使用冲激函数 \(\delta(t)\) 完全代替
+  \item 为了满足冲激函数的匹配性，那么只有右侧最高阶导数 \(\dfrac{\dd{^n r(t)}}{\dd{t^n}}\) 中含有 \(\delta(t)\)
+  \item 那么有\(\dfrac{\dd{^{n-1} r(t)}}{\dd{t^{n-1}}}\left|_{t=0^+}\right. = 1\) 以及 \(\dfrac{\dd{^{i} r(t)}}{\dd{t^{i}}}\left|_{t=0^+}\right. = 0, i < (n-1)\)
+  \item 之后根据线性性以及时不变性得到单位冲激响应
+\end{enumerate}
+
+\section{卷积计算及性质}
+
+\begin{definition}[卷积]
+  对于函数 \(x(t)\), \(y(t)\) 定义其卷积为
+  \[s(t) = \int_{-\infty}^{+\infty} x(\tau) y(t-\tau) \dd{\tau}\]
+  通常可以表示为
+  \[s(t) = x(t) \otimes y(t)\]
+  或者
+  \[s(t） = x(t) * y(t))\]
+\end{definition}
+
+卷积的性质。
+\begin{itemize}
+  \item 分配率
+  \item 交换律
+  \item 结合律
+  \item 微分积分性质 \[s^{(n-m)}(t) = f_1^{(n)}(t) \otimes f_2^{(-m)}(t) = f_1(t) \otimes f_2'(t)\]
+  \item 冲激函数性质 \[f(t-t_1) \otimes \delta(t-t_0) = f(t-t_0-t_1)\] 
+        \[f(t) \otimes \delta'(t) = f'(t)\] 
+        \[f(t) \otimes \delta^{-1}(t) = \int_{-\infty}^t f(\tau)\dd{\tau}\]
+\end{itemize}
+
+\section{时域系统的特性}
+
+LTI 系统的系统性质围绕着单位冲激响应展开。
+
+因果性的\textbf{充要条件}： \[h(t) = h(t) u(t)\]
+
+稳定性的\textbf{充要条件}(绝对可积)： \[\int_{-\infty}^{+\infty} |h(t-\tau)| \dd{\tau} \leq N \] 
+
+
+% End Here
+
+\ifx\mainclass\undefined
+\end{document}
+\fi 

@@ -1,0 +1,49 @@
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+
+\newcommand{\where}[1]{\Big|_{#1}}
+\newcommand{\dd}[1]{\mathrm{d}#1}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\zt}[1]{\mathscr{Z}[#1]}
+\newcommand{\zta}{\xrightarrow{\mathscr{Z}}} 
+\newcommand{\lt}[1]{\mathscr{L}[#1]}
+\newcommand{\lta}{\xrightarrow{\mathscr{L}}} 
+\newcommand{\ft}[1]{\mathscr{F}[#1]}
+\newcommand{\fta}{\xrightarrow{\mathscr{F}}} 
+\newcommand{\dsum}{\displaystyle\sum}
+\newcommand{\aint}{\int_{-\infty}^{+\infty} }
+
+\newcommand{\re}{\operatorname{Re}[\mathrm{s}]} 
+
+
+\newcommand{\qfig}[2]{\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{#1}
+  \caption{#2}
+\end{figure}}
+
+
+
+\renewcommand\arraystretch{1.6}
+
+
+
+
+\setcounter{tocdepth}{3}
+\newcommand{\dollar}{\mbox{\textdollar}}
+\lstset{
+  mathescape = false}
+
+  
+
+\usepackage{shapepar}
+\usepackage{longtable}
+\usepackage{tikz}
+% \usepackage{multirow}
+\usetikzlibrary{positioning}
+\tikzset{>=stealth}
+\newcommand{\tikzmark}[3][]
+  {\tikz[remember picture, baseline]
+    \node [anchor=base,#1](#2) {#3};}
+\usetikzlibrary{graphs}

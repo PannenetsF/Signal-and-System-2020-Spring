@@ -1,0 +1,370 @@
+\ifx\mainclass\undefined
+\documentclass[cn,11pt,chinese,black,simple]{../elegantbook}
+\input{../needed.tex}
+\begin{document}
+\fi 
+
+% Start Here
+\chapter{连续时间系统的实频域分析}
+
+\section{系统频率响应}
+
+\subsection{定义与意义}
+
+\begin{definition}[系统频率响应]
+    系统的单位冲激响应 \(h(t)\) 的 傅里叶变换 \(H(\omega)\) 为系统频率响应，又称系统的传递函数。
+
+    \[h(t) \fta H(\omega)\]
+\end{definition}
+
+根据卷积定理，激励信号 \(e(t)\) 作用到系统的零状态响应 \(r(t)\) 的频域形式为 
+
+\[R(\omega) = E(\omega) H(\omega)\]
+
+以基本信号\(\sin(\omega_1 t + \theta_1)\) 为例，分析系统对不同的频率信号的影响
+
+\[R(\omega) = -j \pi \left[\delta(\omega - \omega_1) - \delta(\omega + \omega_1)\right] e^{ j \displaystyle\dfrac{\theta_1}{\omega_1} \omega} H(\omega) \]
+
+\[r(t) = \dfrac{1}{2 j} \left[H(\omega_1) e^{j \omega_1 t + j \theta_1} - H(-\omega_1) e^{-j \omega_1 t - j\theta_1}\right]\]
+
+分解 \[H(\omega) = |H(\omega)|e^{j \varphi(\omega)}\]
+
+得到 \[r(t) = |H(\omega_1) sin\left[\omega_1 t + \theta_1 + \varphi(\omega_1)\right]\]
+
+即特定频率信号通过 \(H(\omega)\) 的系统， 幅度会被 \(|H(\omega)|\) 调制， 并且发生 \(\varphi(\omega)\) 的相移。
+
+\subsection{求解}
+
+可以通过对系统的常微分方程做傅里叶变换的方式求得系统频响。
+
+
+\[
+\dsum_{i=0}^{n} C_i \dfrac{\dd{^{n-i} r(t)}}{\dd{t^{n-i}}} = \dsum_{j=0}^{m} E_j \dfrac{\dd{^{m-j} e(t)}}{\dd{t^{m-j}}} 
+\]
+
+\[ H(\omega) = \dfrac{\dsum_{i = 0}^{n-1} C_i(j \omega)^{n - i}}{\dsum_{j = 0}^{m-1} E_i (j \omega)^{m-j}} \]
+
+
+\section{无失真系统}
+
+\begin{definition}[无失真系统]
+    系统的输出可以复现系统输入信号，区别仅在于出现的时刻与幅度，信号的形状并未发生改变，这样的系统称为无失真系统。
+    即
+    \[r(t) = k e(t - t_0)\]
+\end{definition}
+
+\subsection{系统频响}
+
+分析系统的单位冲激响应
+
+\[h(t) = k \delta(t - t_0)\]
+
+那么
+
+\[H(\omega) = k e^{-j \omega t_0}\]
+
+因此幅频特性与相频特性分布为
+
+\begin{equation*}
+    \begin{aligned}
+        \abs{H(\omega)} &= k \\
+        \varphi(\omega) &= - \omega t_0
+    \end{aligned}
+\end{equation*}
+
+\subsection{失真类型}
+
+幅度失真，对不同频率分量的幅度加权不一致 \[\abs{H(\omega_1)} \neq \abs{\omega_2}\]
+
+相位失真，对不同频率分量的相移不一致 \[\dfrac{\varphi(\omega_1)}{\omega_1} \neq \dfrac{\varphi(\omega_2)}{\omega_2}\]
+
+\begin{definition}[群延时]
+    相频特性对频率的负导数 
+\end{definition}
+
+无失真系统的群延时的物理意义是信号的延时时间。
+
+存在相位失真但是幅度不失真的系统称为\textbf{全通网络}或者\textbf{全通系统}。
+
+\section{理想低通滤波器}
+
+\subsection{频响特性}
+
+对特定频率以下的信号无损滤波，应当满足
+
+\begin{equation*}
+    H(\omega) = 
+    \left\{
+        \begin{aligned}
+            &e^{-j \omega t_0}, \abs{\omega} < \omega_c\\
+            &0, \abs{\omega} \geq \omega_c
+        \end{aligned}
+    \right.
+    \rightarrow
+    \left\{
+    \begin{aligned}
+        \abs{H(\omega)} &= \left\{ 
+            \begin{aligned}
+                &1, \abs{\omega} < \omega_c \\ 
+            &0 , \abs{\omega} \geq \omega_c     
+            \end{aligned}
+        \right. \\
+        \varphi(\omega) &= \left\{
+            \begin{aligned}
+                & -\omega t_0, \abs{\omega} < \omega_c\\
+                & 0, \abs{\omega} \geq \omega_c
+            \end{aligned}
+        \right.
+    \end{aligned}
+    \right.
+\end{equation*}
+
+进行逆变换，得到其时域波形
+
+\[h(t) = \dfrac{\omega_c}{\pi} Sa\left[\omega_c(t-t_0)\right]\]
+
+可以发现理想低通滤波器是非因果且失真的。
+
+\subsection{单位阶跃响应}
+
+\begin{definition}[\(Si\) 函数]
+    \[Si(t) = \int_0^t \dfrac{\sin t }{t} \dd{t}\]
+\end{definition}
+
+理想低通滤波器的单位阶跃响应为 
+\[G(\omega) = \left[\pi \sigma(\omega) + \dfrac{1}{j \omega} \right] e^{-j \omega t_0}, -\omega_c < \omega < \omega_c\]
+
+那么进行逆变换
+
+\begin{equation*}
+    \begin{aligned}
+        g(t) &= \dfrac{1}{2 \pi} \int_{-\infty}^{+\infty} G(\omega) \dd{\omega}\\
+        &= \dfrac{1}{2} + \dfrac{2}{2 \pi}  \int_0^{\omega_c} \dfrac{\sin \omega (t-t_0)}{\omega} \dd{\omega}\\
+        &= \dfrac{1}{2} + \dfrac{1}{\pi} \int_0^{\omega_c (t-t_0) \dfrac{\sin x}{x} \dd{x}}
+    \end{aligned}
+\end{equation*}
+
+定义上升时间为从最小值到最大值的时间，那么阶跃响应的上升时间为 \[t_r = \dfrac{2 \pi }{\omega_c}\] 上升时间与带宽成反比。
+
+
+\subsection{矩形脉冲响应}
+
+吉布斯现象指的是矩形波的上冲现象。从一般的理解来看，随着滤波器截止频率的增大，通过的
+频率分量增多，这个峰值应该逐渐减小。
+但实际情况是，只有当系统的截止频率为无穷大时上冲才
+会消失，否则截止频率即使再大其依然存在，且大约等于
+总跳变值的\(9 \% \)。
+
+\section{系统的因果性}
+
+因果系统的单位冲激响应满足\[h(t)  = h(t) u(t)\]
+
+\begin{theorem}[佩利-维纳准则]
+对于幅频特性 \(\abs{H(\omega)}\) 系统物理可以实现的必要条件是 
+
+\[\int_{-\infty}^{+\infty} \dfrac{\abs{\ln \abs{H(\omega)}}}{1 + \omega^2} \dd{\omega} < \infty\]
+
+且 \(\abs{H(\omega)}\) 平方可积
+
+\[\aint \abs{H(\omega)}^2 \dd{\omega} < \infty\]
+
+\end{theorem}
+
+值得注意的是，若在一段有限长度的区间上幅频特性为  \(0\)， 那么\(\ln \abs{H(\omega)}\) 为无穷，因此不满足定理，无法物理实现。所以理想低通滤波器、理想高通滤波器、理想带通滤波器和理想带阻滤波器都是物理不可实现的系统。
+
+
+\begin{theorem}[希尔伯特变换]
+    系统响应划分为实部虚部
+    \[H(\omega) = R(\omega) + j X(\omega)\]
+    那么频域判定LTI为因果稳定系统的充分必要条件是，系统频率响应的实部和虚部满足
+    \begin{equation*}
+        \begin{aligned}
+            R(\omega) &= X(\omega) \otimes \dfrac{1}{\pi \omega}\\
+            X(\omega) &= R(\omega) \otimes (- \dfrac{1}{\pi \omega})\\
+        \end{aligned}
+    \end{equation*}
+\end{theorem}
+
+推导如下 对 \(h(t) = h(t) u(t)\) 进行傅里叶变换
+
+\[ H(\omega) = \dfrac{1}{2 \pi} H(\omega) \otimes \left[\pi \sigma(\omega) + \dfrac{1}{j \omega}\right] \]
+
+分解
+
+\[H(\omega) = R(\omega) + j X(\omega)\]
+
+带入
+
+\begin{equation*}
+    \begin{aligned}
+        R(\omega) + j X(\omega) &= \dfrac{1}{2 \pi} \left[R(\omega) + j X(\omega) \right] \otimes \left[\pi \sigma(\omega) + \dfrac{1}{j \omega} \right] \\
+        &= \dfrac{1}{2\pi}\left[\pi R(\omega) + X(\omega)\otimes \dfrac{1}{\omega}\right] + \dfrac{j}{2 \pi} \left[\pi X(\omega) - R(\omega) \otimes \dfrac{1}{\omega}\right]
+    \end{aligned}
+\end{equation*}
+
+对应的实部虚部相等
+
+\begin{equation*}
+    \begin{aligned}
+        R(\omega) &= X(\omega) \otimes \dfrac{1}{\pi \omega}\\
+        X(\omega) &= R(\omega) \otimes (- \dfrac{1}{\pi \omega})
+    \end{aligned}
+\end{equation*}
+
+以上两式分别称为希尔伯特正变换、逆变换，分别相当于通过 \(h(t) = \dfrac{1}{\pi t}\) 与 \(h(t) = -\dfrac{1}{\pi t}\) 的系统。
+
+希尔伯特正变换：
+
+\[\hat{f}(t) = f(t) \otimes \dfrac{1}{\pi t}\]
+
+而 \[\dfrac{1}{\pi t} \fta e^{-j\dfrac{\pi}{2}} sgn \omega \]
+
+对正频率部分相位移动\(-\pi/2\) 负频率部分移动 \(\pi / 2\)
+
+实际上掌握概念即可，这里 \(\omega, t\) 的使用\textbf{没有时域和频域必然联系}。
+
+
+\section{相关函数}
+
+在之前的章节，定义了相关系数来反映信号的相似性，但是在信号传输过程中可能会出现时移，所以静态的相关系数无法全面反映相似关系。
+
+\begin{definition}[相关函数(能量)]
+    定义能量有限信号 \(f_1(t)\) 与 \(f_2(t)\) 的相关函数：
+    \[R_{12}(\tau) = \aint f_1(t) f_2^*(t-\tau) \dd{t}\]
+
+    \[R_{21}(\tau) = \aint f_2(t) f_1^*(t-\tau) \dd{t}\]
+    
+    函数与自身的相关函数称为自相关函数。
+\end{definition}
+
+易知，\(R_{12} = R_{21}^*\) ，并且可以观察到和卷积的相似性
+
+\[f_i(t) \otimes f_j(-t) = R_{ij}(t)\]
+
+在频域中 \(f_1(t) \fta F_1(\omega)\) ， \(f_2(t) \fta F_2(\omega)\) 那么
+
+\[\ft{R_{12}(\tau)} = F_1(\omega) F_2(-\omega) = F_1(\omega) F_2^*(\omega)  \]
+
+
+\begin{definition}[相关函数(功率)]
+    定义功率有限信号 \(f_1(t)\) 与 \(f_2(t)\) 的相关函数：
+    \[R_{12}(\tau) = \lim_{T\rightarrow\infty}\dfrac{1}{T}\int_{-T/2}^{T/2} f_1(t) f_2^*(t-\tau) \dd{t}\]
+
+    \[R_{21}(\tau) = \lim_{T\rightarrow\infty}\dfrac{1}{T}\int_{-T/2}^{T/2} f_2(t) f_1^*(t-\tau) \dd{t}\]
+    
+    函数与自身的相关函数称为自相关函数。
+\end{definition}
+
+
+\section{激励响应的谱关系}
+
+
+\subsection{能量谱}
+
+从自相关函数入手，可以得到
+
+\[f(t) \otimes f(-t) \fta F(\omega) F(-\omega) = \abs{F(\omega)}^2\]
+
+\(\tau = 0\) 时有 
+
+\begin{equation*}
+    \begin{aligned}
+        R(0) &= \dfrac{1}{2 \pi} \aint \abs{F(\omega)}^2 \dd{\omega} \\
+        &= \aint \abs{f(t)}^2 \dd{t} \\
+        &= \aint \abs{F(2 \pi f)}^2 \dd{f}\\
+    \end{aligned}
+\end{equation*}
+
+上式体现了能量守恒定律在时域与频域的体现，称为帕塞瓦尔方程或者能量守恒方程。将 \(\epsilon(\omega) = \abs{F(\omega)}^2 \) 称为信号的能量谱密度，是 \(\omega\) 的偶函数，它只决定于信号 \(f(t)\) 的频谱函数的模，
+而与相位无关，其单位是焦耳\(\cdot\)秒。同时与自相关函数构成变换对
+
+\[R(t) \fta \epsilon(\omega)\]
+
+
+\subsection{功率谱}
+
+仿照能量谱的方式，通过去极限的方式进行处理。截取某区间的功率信号
+
+\[f_T(t) = f(t) \left[u(t+\dfrac{T}{2}) - u(t - \dfrac{T}{2})\right]\]
+
+其能量表示为
+
+\[E_T = \aint f_T^2(t) \dd{t} = \dfrac{1}{2 \pi} \aint \abs{F_T(\omega)}^2 \dd{\omega}\]
+
+那么功率为 
+
+\[P = \lim_{T\rightarrow \infty} \dfrac{1}{T} E_T = \dfrac{1}{2\pi}\aint  \lim_{T\rightarrow \infty} \dfrac{\abs{F_T(\omega)}^2}{T} \dd{\omega}\]
+
+那么在 \(\lim_{T\rightarrow \infty}\dfrac{\abs{F_T(\omega)}^2}{T}\) 存在且有限时，定义功率谱密度函数为
+
+\[p(\omega) = \lim_{T\rightarrow \infty} \dfrac{\abs{F_T(\omega)}^2}{T}\]
+
+功率可以表示为 \(P = \dfrac{1}{2\pi}\aint p(\omega) \dd{\omega}\)
+
+可以得到变换对，或维纳-欣钦定理
+
+\[R(t) \fta p(\omega)\]
+
+\subsection{LTI系统激励与响应的谱关系}
+
+对功率或能量信号均满足输出谱为输入谱和系统频响模方的乘积。
+
+\begin{equation*}
+    \begin{aligned}
+        p_r(\omega) &= \abs{H(\omega)}^2 p_e(\omega) \\
+        \epsilon_r(\omega) &= \abs{H(\omega)}^2 \epsilon_e(\omega) 
+    \end{aligned}
+\end{equation*}
+
+在时域进行分析
+
+\[R(\omega)R(-\omega) = E(\omega)E(-\omega)H(\omega)H(-\omega)\]
+
+\[R_r(\tau) = R_e(\tau) \otimes h(t) \otimes h(-t) = R_e(\tau) \otimes R_h(\tau)\]
+
+定义系统冲激响应的自相关函数 \(R_h(\tau) = \otimes h(t) \otimes h(-t)\)
+
+\section{实用性抽样系统分析模型}
+
+一般通过理想抽样脉冲调制之后通过抽样系统获得抽样信号：
+
+\[t: f_s(t) = [(f(t) \delta_{T_s}(t))] \otimes h_s(t) \]
+
+\[\omega: F_s(\omega) = F_S^\delta(\omega) H_s(\omega) = \dfrac{H_s(\omega)}{T_s}\dsum_{n = -\infty}^{+\infty} F(\omega - n \omega_s)\]
+
+那么通过低通滤波器回复原信号
+
+\[H(\omega) = \dfrac{T_s}{H_s(\omega)}\]
+
+\subsection{抽样保持信号}
+
+实际上就是选取不同形状抽样信号。
+
+零阶抽样保持：通过矩形脉冲采样 \(u(t)-u(t-T_s)\)
+
+一阶抽样保持：通过尖峰脉冲采样 \(1 - \dfrac{\abs{t}}{T_s}\)
+
+\subsection{幅度调制与解调}
+
+调制是指通过特定信号的某种特性按照所需传输信号的
+变化规律变化，该特定信号称为载波，所需传输的信号
+称为调制波。
+
+解调是调制的逆过程，将需传输的信号从接收到的信号
+中提取出来。
+
+若一个信号通过余弦信号调制
+
+\[f_c(t) = f(t) \cos \omega_c t\]
+
+\[F_c(\omega) = \dfrac{1}{2} [F(\omega-\omega_c) - F(\omega + \omega_c)]\]
+
+幅度解调的实现方法和调制相近， 首先，将接收信号\(f_s(t)\)与接收端的本地载波信号相乘， 这里要
+求本地载波信号是与发送端同频率同相位的余弦信号， 这种解调方式称为
+同步解调。可以将频谱移到原点附近，直接滤波即可。
+
+% End Here
+
+\ifx\mainclass\undefined
+\end{document}
+\fi 

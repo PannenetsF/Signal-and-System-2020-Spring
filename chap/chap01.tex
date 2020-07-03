@@ -1,0 +1,69 @@
+\ifx\mainclass\undefined
+\documentclass[cn,11pt,chinese,black,simple]{../elegantbook}
+\input{../needed.tex}
+\begin{document}
+\fi 
+
+% Start Here
+
+\chapter{信号与系统概论}
+
+
+
+本章讨论信号与系统的基础概念问题。
+
+\section{信号的分类}
+
+\begin{definition}[能量/功率信号]\label{def:ene-powersig}
+  对于信号 \(f(t)\) , 定义其能量为 : 
+  \[W = \lim_{T\rightarrow \infty} \int_{-T/2}^{T/2} f^2(t) \dd{t} \]
+  定义其功率为 : 
+  \[P = \lim_{T\rightarrow \infty} \dfrac{1}{T} \int_{-T/2}^{T/2} f^2(t) \dd{t} \] 
+\end{definition}
+
+\section{信号的变换}
+
+掌握信号的压缩、扩展、反褶以及时移等运算。
+
+\section{基本信号}
+
+本书涉及到的基本信号可以列举如下。
+
+\begin{itemize}
+  \item 指数类信号 
+    \begin{itemize}
+      \item 实指数信号 \(K e^{\alpha t}\)
+      \item 复指数信号 \(K e^{(\sigma + j \omega)t}\)
+      \item 正余弦信号 \(\cos(\omega t + \varphi)\), \(\sin(\omega t + \varphi)\)
+    \end{itemize}
+  \item 奇异信号
+    \begin{itemize}
+      \item 单位冲激信号 \(\delta(t)\)
+      \item 单位阶跃信号 \(u(t)\)
+      \item 单位斜变信号 \(r(t)\)
+    \end{itemize}
+\end{itemize}
+
+\section{系统的描述}
+
+本课程研究的系统均可用微分方程或者差分方程描述，这样的系统可以使用框图进行描述。
+
+系统可以使用以下标准进行分类。
+
+\begin{itemize}
+  \item 连续时间系统与离散时间系统
+  \item 有记忆系统与无记忆系统
+  \item 可逆系统与不可逆系统 : 不同的激励是否会引起不同的相应
+  \item 因果系统与非因果系统 : 响应出现不早于激励
+  \item 稳定系统与不稳定系统 : 有限输入是否引起有限输出
+  \item 线性系统与非线性系统
+  \item 时变系统与时不变系统 : 输入的时移对应引起输出的时移
+\end{itemize}
+
+
+
+% End Here
+
+\ifx\mainclass\undefined
+\end{document}
+\fi 
